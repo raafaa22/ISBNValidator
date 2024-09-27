@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ISBN Validation</title>
+</head>
+<body>
+    <h1>ISBN Validation</h1>
+    <form id="isbnForm">
+        <label for="isbn">Write the ISBN:</label>
+        <input type="text" id="isbn" name="isbn" required>
+        <br><br>
+        <label for="isbnType">Type of ISBN:</label>
+        <select id="isbnType" name="isbnType">
+            <option value="isbn10">ISBN-10</option>
+            <option value="isbn13">ISBN-13</option>
+        </select>
+        <br><br>
+        <button type="button" onclick="validateISBN()">Validate</button>
+    </form>
+
+    <p id="result"></p>
+
+    <script>
+        function validateISBN() {
+            const isbn = document.getElementById('isbn').value;
+            const isbnType = document.getElementById('isbnType').value;
+            const xhr = new XMLHttpRequest();
+            const url = `http://localhost:8080/Webapp/validate?isbn=${isbn}&type=${isbnType}`;
+
+            xhr.open('GET', url, true);
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    document.getElementById('result').innerText = xhr.responseText;
+                }
+            };
+            xhr.send();
+        }
+    </script>
+</body>
+</html>
